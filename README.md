@@ -1,23 +1,36 @@
 # Azticketing
 
-A robust ticketing system for your Laravel application using Azure Board.
+Report bugs and more from your Laravel application to Azure DevOps Boards.
 
 ## Motivation
 
-I created this package to help developers integrate Azure Board into their Laravel applications. This package is designed to be simple and easy to use.
+This package was created to help developers integrate Azure Board into their Laravel applications in order to add ticketing support for their users. This package is designed to be simple and easy to use.
 
 ## Installation
 
-1. You can install the package via composer:
+1. You can install the package via repository:
+
+On your `composer.json` file, add the following repository:
+
+```json
+"repositories": [
+    {
+        "type": "vcs",
+        "url": "https://github.com/antonio-pedro99/azticketing"
+    }
+]
+```
+
+Then, run the following command:
 
 ```bash
-composer require antonio-pedro99/azticketing
+composer update
 ```
 
 2. Publish the configuration file:
 
 ```bash
-php artisan vendor:publish --provider="AntonioPedro\Azticketing\AzticketingServiceProvider" --tag="azticketing-config"
+php artisan vendor:publish --tag="azticketing-config"
 ```
 
 ## Configuration
@@ -25,19 +38,16 @@ php artisan vendor:publish --provider="AntonioPedro\Azticketing\AzticketingServi
 You can configure the package by editing the `config/azticketing.php` file. It contains the following options:
 
 ```php
-organization: Your Azure DevOps organization.
-project: Your Azure DevOps project.
-pat: Personal Access Token for Azure DevOps.
-webhook_secret: Secret for validating incoming webhooks.
-area_path: Area path for the tickets.
-app: Configuration for the Laravel application. You can set the following options:
-    page_title: Default page title.
-    url: The URL of the application.
-    version: The version of the application.
-enable_views: Enable or disable the default views for manager tickets.
-routes: Configuration for the default routes. You can set the following options:
-    prefix: The prefix for the routes.
-    middleware: The middleware for the routes.
+"organization": // Your Azure DevOps organization.
+"project": // Your Azure DevOps project.
+"pat": //Personal Access Token for Azure DevOps.
+"webhook_secret": //Secret for validating incoming webhooks. Ignore for now
+"area_path": // Area path for the tickets. If not set, it will use the project name.
+"app:" //Configuration for the Laravel application. You can set the following options:
+    "page_title": // Default page title.
+"enable_views": // Enable or disable the default views for manager tickets.
+"routes": // Configuration for the default routes. You can set the following options:
+    "prefix": // The prefix for the routes.
 ```
 
 ## Exemple of usage

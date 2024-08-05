@@ -11,9 +11,7 @@ Route::group(['middleware' => ['web'], 'prefix'=>'azticketing'], function () {
 
     Route::get('/', function () {
 
-        $azTickets = AzTicketingManager::getTickets([
-            'Custom.ReportedBy' => 'Angel Duran'
-        ]);
+        $azTickets = AzTicketingManager::getTickets();
 
         $workItems = $azTickets["workItems"];
         $workItemsWithDetails = [];
@@ -26,17 +24,10 @@ Route::group(['middleware' => ['web'], 'prefix'=>'azticketing'], function () {
         return view('azticketing::index' , ['tickets' => $workItemsWithDetails]);
     });
 
-
     Route::post('/workitem/create', function (Request $request) {
 
         $title = $request->input('title');
         $description = $request->input('description');
-        // $tags = $request->input('tags');
-
-        // $metadata = [
-            //'System.Tags' => $tags,
-          //  'Custom.ReportedBy' => 'Angel Duran'
-        //];
 
         $az = AzTicketingManager::createTicket($title, $description, []);
 

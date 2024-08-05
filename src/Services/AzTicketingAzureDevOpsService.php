@@ -114,17 +114,14 @@ class AzTicketingAzureDevOpsService
     {
         $url = "{$this->baseUrl}{$this->organization}/{$this->project}/_apis/wit/wiql?api-version=7.1-preview.2";
 
+        // default columns
+        $columns = ["[System.Id], [System.Title], [System.State]"];
+
         // template query
-        $query = "SELECT [System.Id], [System.Title], [System.State], [System.Tags] FROM WorkItems";
+        $query = "SELECT ". implode(", ", $columns). " FROM WorkItems";
 
-        if (empty($metadata)) {
-            return "Metadata is required. Please provide metadata to filter the tickets.";
-        } else {
-
-            $columns = ["[System.Id], [System.Title], [System.State]"];
-
-            $query = "SELECT " . implode(", ", $columns) . " FROM WorkItems WHERE ";
-
+        if ($metadata) {
+            $query .= " WHERE ";
             foreach ($metadata as $key => $value) {
                 // take if the key is not in the columns
                 if (!in_array($key, $columns)) {
@@ -137,7 +134,6 @@ class AzTicketingAzureDevOpsService
         }
 
         try {
-
             $response = $this->client->post($url, [
                 'headers' => $this->getHeaders(),
                 'json' => [
